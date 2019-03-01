@@ -32,7 +32,7 @@ public class DataManager {
 
     public static String BASE_URL_VIDEO = "https://www.youtube.com/watch?v=";
 
-    private static final String API_KEY = "";
+    private static final String API_KEY = "e3297d47a9c9fcc9d3fdf5d0f87940a6";
     private static DataManager mInstance;
     private Context mContext;
     private RequestQueue mRequestQueue;
@@ -60,7 +60,7 @@ public class DataManager {
         return mRequestQueue;
     }
 
-    public <T> void addToRequestQueue(Request<T> request, String tag) {
+    private <T> void addToRequestQueue(Request<T> request, String tag) {
         request.setTag(TextUtils.isEmpty(tag) ? TAG : tag);
         mRequestQueue.add(request);
     }

@@ -8,6 +8,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -234,7 +235,7 @@ public class DetailFragment  extends Fragment implements View.OnClickListener, D
         if (NetworkUtils.isOnline(mActivity)) {
             mProgressBar.show();
             Log.v(TAG, "Calling : get movie reviews api");
-            mDataMan.getMovieReviews(new WeakReference<DataRequester>(mMovieReviewRequester), mMovie.getId(), Language.LANGUAGE_EN.getValue(), TAG);
+            mDataMan.getMovieReviews(new WeakReference<>(mMovieReviewRequester), mMovie.getId(), Language.LANGUAGE_EN.getValue(), TAG);
         } else {
             NetworkUtils.showSnackbar(mCoordinatorLayout, noInternetConnectionToShowReviews);
         }
@@ -254,7 +255,7 @@ public class DetailFragment  extends Fragment implements View.OnClickListener, D
                     mProgressBar.show();
                     Log.v(TAG, "Calling : get video trailer api");
                     mDataMan.getVideoTrailers(
-                            new WeakReference<DataRequester>(mVideoTrailerRequester), mMovie.getId(),
+                            new WeakReference<>(mVideoTrailerRequester), mMovie.getId(),
                             Language.LANGUAGE_EN.getValue(), TAG);
                 } else {
                     NetworkUtils.showSnackbar(mCoordinatorLayout, noInternetConnection);
@@ -267,7 +268,7 @@ public class DetailFragment  extends Fragment implements View.OnClickListener, D
                 if (NetworkUtils.isOnline(mActivity)) {
                     mProgressBar.show();
                     Log.v(TAG, "Calling : get video trailer api to share the first trailer");
-                    mDataMan.getVideoTrailers(new WeakReference<DataRequester>(mVideoTrailerRequester), mMovie.getId(), Language.LANGUAGE_EN.getValue(), TAG);
+                    mDataMan.getVideoTrailers(new WeakReference<>(mVideoTrailerRequester), mMovie.getId(), Language.LANGUAGE_EN.getValue(), TAG);
                 } else {
                     NetworkUtils.showSnackbar(mCoordinatorLayout, noInternetConnection);
                 }
@@ -420,16 +421,13 @@ public class DetailFragment  extends Fragment implements View.OnClickListener, D
 
                 int noOfReviews = mMovieReviewList.size();
 
-                if (noOfReviews >= 2) {
-                    displayReviewLayout(0, mMovieReviewList.get(0));
-                    displayReviewLayout(1, mMovieReviewList.get(1));
-                    displayReviewLayout(2, mMovieReviewList.get(2));
-                    displayReviewLayout(3, mMovieReviewList.get(3));
-                    displayReviewLayout(4, mMovieReviewList.get(4));
-                    displayReviewLayout(5, mMovieReviewList.get(5));
-                } else {
-                    displayReviewLayout(0, mMovieReviewList.get(0));
+//                if (noOfReviews >= 2) {
+                for(int i=0; i<noOfReviews; i++){
+                    displayReviewLayout(i, mMovieReviewList.get(i));
                 }
+//                } else {
+//                    displayReviewLayout(0, mMovieReviewList.get(0));
+//                }
             }
         }
     };
@@ -438,7 +436,7 @@ public class DetailFragment  extends Fragment implements View.OnClickListener, D
         CardView reviewLayout = null;
         if (position == 0) {
             reviewLayout = mReviewLayout0;
-            ((TextView) reviewLayout.findViewById(R.id.tv_reviews_text)).setVisibility(View.VISIBLE);
+            (reviewLayout.findViewById(R.id.tv_reviews_text)).setVisibility(View.VISIBLE);
             reviewLayout.findViewById(R.id.line_reviews_heading).setVisibility(View.VISIBLE);
         } else if (position == 1) {
             reviewLayout = mReviewLayout1;
